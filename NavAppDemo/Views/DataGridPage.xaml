@@ -11,9 +11,9 @@
 
     <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
         <controls:DataGrid
+            x:Name="DataGrid"
             AutoGenerateColumns="False"
-            GridLinesVisibility="Horizontal"
-            ItemsSource="{x:Bind ViewModel.Source, Mode=OneWay}">
+            GridLinesVisibility="Horizontal">
             <controls:DataGrid.Columns>
                 <!--
                 TODO WTS:

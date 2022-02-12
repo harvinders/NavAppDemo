@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using System.Reactive.Disposables;
+using CommunityToolkit.Mvvm.DependencyInjection;
 
 using Microsoft.UI.Xaml.Controls;
 
@@ -20,6 +21,12 @@ namespace NavAppDemo.Views
         {
             ViewModel = Ioc.Default.GetService<DataGridViewModel>();
             InitializeComponent();
+
+            this.WhenActivated(disposables =>
+            {
+                this.OneWayBind(ViewModel, vm => vm.Source, v => v.DataGrid.ItemsSource)
+                    .DisposeWith(disposables);
+            });
         }
     }
 }

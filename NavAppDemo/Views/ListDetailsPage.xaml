@@ -36,7 +36,7 @@
 
         <DataTemplate x:Key="DetailsTemplate">
             <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                <views:ListDetailsDetailControl ListDetailsMenuItem="{Binding}" />
+                <views:ListDetailsDetailControl ViewModel="{Binding}" />
             </Grid>
         </DataTemplate>
 
@@ -90,10 +90,8 @@
             BackButtonBehavior="Automatic"
             BorderBrush="Transparent"
             DetailsTemplate="{StaticResource DetailsTemplate}"
-            ItemsSource="{x:Bind ViewModel.SampleItems}"
             ItemTemplate="{StaticResource ItemTemplate}"
             NoSelectionContentTemplate="{StaticResource NoSelectionContentTemplate}"
-            SelectedItem="{x:Bind ViewModel.Selected, Mode=TwoWay}"
             ViewStateChanged="OnViewStateChanged"
             ListHeaderTemplate="{StaticResource MinimalListHeaderTemplate}"
             Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}" />

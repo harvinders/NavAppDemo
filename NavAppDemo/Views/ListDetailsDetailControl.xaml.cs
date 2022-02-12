@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using System.Reactive.Disposables;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 using NavAppDemo.Core.Models;
@@ -12,17 +13,27 @@ namespace NavAppDemo.Views
 
     public sealed partial class ListDetailsDetailControl : ListDetailsDetailReactiveControl
     {
-        public SampleOrder ListDetailsMenuItem
-        {
-            get { return GetValue(ListDetailsMenuItemProperty) as SampleOrder; }
-            set { SetValue(ListDetailsMenuItemProperty, value); }
-        }
-
-        public static readonly DependencyProperty ListDetailsMenuItemProperty = DependencyProperty.Register("ListDetailsMenuItem", typeof(SampleOrder), typeof(ListDetailsDetailControl), new PropertyMetadata(null, OnListDetailsMenuItemPropertyChanged));
-
         public ListDetailsDetailControl()
         {
             InitializeComponent();
+
+            this.WhenActivated(disposables =>
+            {
+                this.OneWayBind(ViewModel, vm => vm.Symbol, v => v.FontIcon.Glyph)
+                    .DisposeWith(disposables);
+                this.OneWayBind(ViewModel, vm => vm.Company, v => v.CompanyHeader.Text)
+                    .DisposeWith(disposables);
+                this.OneWayBind(ViewModel, vm => vm.Status, v => v.Status.Text)
+                    .DisposeWith(disposables);
+                this.OneWayBind(ViewModel, vm => vm.OrderDate, v => v.OrderDate.Text)
+                    .DisposeWith(disposables);
+                this.OneWayBind(ViewModel, vm => vm.Company, v => v.Company.Text)
+                    .DisposeWith(disposables);
+                this.OneWayBind(ViewModel, vm => vm.ShipTo, v => v.ShipTo.Text)
+                    .DisposeWith(disposables);
+                this.OneWayBind(ViewModel, vm => vm.OrderTotal, v => v.OrderTotal.Text)
+                    .DisposeWith(disposables);
+            });
         }
 
         private static void OnListDetailsMenuItemPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

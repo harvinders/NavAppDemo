@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Reactive;
 using System.Windows.Input;
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -17,16 +18,19 @@ namespace NavAppDemo.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly ISampleDataService _sampleDataService;
-        private ICommand _itemClickCommand;
 
-        public ICommand ItemClickCommand => _itemClickCommand ?? (_itemClickCommand = new RelayCommand<SampleOrder>(OnItemClick));
-
+        public ReactiveCommand<SampleOrder,Unit> ItemClickCommand { get; set; }
         public ObservableCollection<SampleOrder> Source { get; } = new ObservableCollection<SampleOrder>();
 
         public ContentGridViewModel(INavigationService navigationService, ISampleDataService sampleDataService)
         {
             _navigationService = navigationService;
             _sampleDataService = sampleDataService;
+            ItemClickCommand = ReactiveCommand.Create<SampleOrder, Unit>(x =>
+            {
+                OnItemClick(x);
+                return Unit.Default;
+            });
         }
 
         public async void OnNavigatedTo(object parameter)
