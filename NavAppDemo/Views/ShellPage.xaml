@@ -1,4 +1,5 @@
-﻿<Page
+﻿<views:ReactiveShellPage
+    xmlns:views="using:NavAppDemo.Views"
     x:Class="NavAppDemo.Views.ShellPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -13,11 +14,8 @@
     <NavigationView
         x:Name="navigationView"
         IsBackButtonVisible="Visible"
-        IsBackEnabled="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay}"
-        SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
         IsSettingsVisible="True"
         ExpandedModeThresholdWidth="1280"
-        Header="{x:Bind ((ContentControl)ViewModel.Selected).Content, Mode=OneWay}"
         Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
         <NavigationView.MenuItems>
             <!--
@@ -28,7 +26,7 @@
             -->
             <NavigationViewItem x:Uid="Shell_Main" Icon="Document" helpers:NavHelper.NavigateTo="NavAppDemo.ViewModels.MainViewModel" />
             <NavigationViewItem x:Uid="Shell_ListDetails" Icon="Document" helpers:NavHelper.NavigateTo="NavAppDemo.ViewModels.ListDetailsViewModel" />
-            <!--<NavigationViewItem x:Uid="Shell_WebView" Icon="Document" helpers:NavHelper.NavigateTo="NavAppDemo.ViewModels.WebViewViewModel" />-->
+            <NavigationViewItem x:Uid="Shell_WebView" Icon="Document" helpers:NavHelper.NavigateTo="NavAppDemo.ViewModels.WebViewViewModel" />
             <NavigationViewItem x:Uid="Shell_ContentGrid" Icon="Document" helpers:NavHelper.NavigateTo="NavAppDemo.ViewModels.ContentGridViewModel" />
             <NavigationViewItem x:Uid="Shell_DataGrid" Icon="Document" helpers:NavHelper.NavigateTo="NavAppDemo.ViewModels.DataGridViewModel" />
         </NavigationView.MenuItems>
@@ -61,4 +59,4 @@
             <Frame x:Name="shellFrame" />
         </Grid>
     </NavigationView>
-</Page>
+</views:ReactiveShellPage>

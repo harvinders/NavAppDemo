@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using System;
+using System.Reactive.Disposables;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI.UI.Animations;
 
 using Microsoft.UI.Xaml.Controls;
@@ -21,6 +23,21 @@ namespace NavAppDemo.Views
         {
             ViewModel = Ioc.Default.GetService<ContentGridDetailViewModel>();
             InitializeComponent();
+            this.WhenActivated(disposables =>
+            {
+                this.OneWayBind(ViewModel, vm => vm.Item.Symbol, v => v.FontIcon.Glyph)
+                    .DisposeWith(disposables);
+                this.OneWayBind(ViewModel, vm => vm.Item.Company, v => v.title.Text)
+                    .DisposeWith(disposables);
+                this.OneWayBind(ViewModel, vm => vm.Item.Status, v => v.Status.Text)
+                    .DisposeWith(disposables);
+                this.OneWayBind(ViewModel, vm => vm.Item.OrderDate, v => v.OrderDate.Text)
+                    .DisposeWith(disposables);
+                this.OneWayBind(ViewModel, vm => vm.Item.ShipTo, v => v.ShipTo.Text)
+                    .DisposeWith(disposables);
+                this.OneWayBind(ViewModel, vm => vm.Item.OrderTotal, v => v.OrderTotal.Text)
+                    .DisposeWith(disposables);
+            });
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

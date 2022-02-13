@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using System.Reactive.Disposables;
+using CommunityToolkit.Mvvm.DependencyInjection;
 
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -7,11 +8,16 @@ using NavAppDemo.Contracts.Services;
 using NavAppDemo.ViewModels;
 
 using Windows.System;
+using ReactiveUI;
 
 namespace NavAppDemo.Views
 {
+    public class ReactiveShellPage : ReactivePage<ShellViewModel>
+    {
+    }
+
     // TODO WTS: Change the icons and titles for all NavigationViewItems in ShellPage.xaml.
-    public sealed partial class ShellPage : Page
+    public sealed partial class ShellPage : ReactiveShellPage
     {
         private readonly KeyboardAccelerator _altLeftKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu);
         private readonly KeyboardAccelerator _backKeyboardAccelerator = BuildKeyboardAccelerator(VirtualKey.GoBack);
@@ -24,6 +30,16 @@ namespace NavAppDemo.Views
             InitializeComponent();
             ViewModel.NavigationService.Frame = shellFrame;
             ViewModel.NavigationViewService.Initialize(navigationView);
+
+            this.WhenActivated(disposables =>
+            {
+                this.OneWayBind(ViewModel, vm => vm.IsBackEnabled, v => v.navigationView.IsBackEnabled)
+                    .DisposeWith(disposables);
+                this.OneWayBind(ViewModel, vm => vm.Selected, v => v.navigationView.SelectedItem)
+                    .DisposeWith(disposables);
+                this.OneWayBind(ViewModel, vm => vm.Selected, v => v.navigationView.Header, x=>((ContentControl)x).Content)
+                    .DisposeWith(disposables);
+            });
         }
 
         private void OnLoaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

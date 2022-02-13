@@ -21,7 +21,7 @@ namespace NavAppDemo.Services
         {
             Configure<MainViewModel, MainPage>();
             // TODO Harvinder
-            //Configure<WebViewViewModel, WebViewPage>();
+            Configure<WebViewViewModel, WebViewPage>();
             Configure<ListDetailsViewModel, ListDetailsPage>();
             Configure<ContentGridViewModel, ContentGridPage>();
             Configure<ContentGridDetailViewModel, ContentGridDetailPage>();
